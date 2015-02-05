@@ -393,7 +393,7 @@ int main(int argc, char *argv[]) {
 	"  [-t <monitor_time>] [-r <min_time_res>]\n"
 	"  [-w <window>]\n"
 	"  [-l <cmpr_level>]\n"
-	"  [-h <hostname1>:<portnumber1>[#<bandwidth1>],...,<hostnameN>:<portnumberN>[#bandwidthN]]\n"
+	"  [-h <hostname1>:<portnumber1>[;<bandwidth1>],...,<hostnameN>:<portnumberN>[;bandwidthN]]\n"
 	"\n"
 	"Arguments:\n"
 	"  min_freq               Lower frequency bound in Hz\n"
@@ -436,7 +436,7 @@ int main(int argc, char *argv[]) {
 	"  -l <cmpr_level>        Compression level [default=%u]\n"
 	"                           0 for no compression, fastest\n"
 	"                           9 for highest compression, slowest\n"
-	"  -h <hostname1>:<portnumber1>[#<bandwidth1>],...,<hostnameN>:<portnumberN>[#<bandwidthN>]\n"
+	"  -h <hostname1>:<portnumber1>[;<bandwidth1>],...,<hostnameN>:<portnumberN>[;<bandwidthN>]\n"
 	"                         TCP collector hosts [default=%s]\n"
 	"                           Bandwidth limitation in Kb/s\n"
 	"",
@@ -792,8 +792,8 @@ static void* spectrum_monitoring(void *args) {
 	
 	for(i=0; i<tcp_hosts_cnt; ++i) {
 	  char *hp, *host, *port, *bandwidth;
-	  hp = strtok(host_ids[i], "#");
-	  bandwidth = strtok(NULL, "#");
+	  hp = strtok(host_ids[i], ";");
+	  bandwidth = strtok(NULL, ";");
 	  if(bandwidth != NULL)
 	    tcp_bandwidths[i] = atoi(bandwidth);
 	  else
