@@ -58,3 +58,5 @@ $ make sensor_cpu CFLAGS="-O2 -DVERBOSE"
 $ ./collector.exe 5000
 $ ./sensor_cpu.exe 24000000 1766000000
 ```
+
+### Description
