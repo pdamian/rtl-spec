@@ -207,7 +207,7 @@ int tcp_write_p(TCP_Connection *c, const void *msg, int len) {
 }
 
 int tcp_disconnect(TCP_Connection *c) {
-  if(c == NULL) return 0;
+  if(c == NULL || c->socket_fd <= 0) return 0;
   if(close(c->socket_fd) < 0) return -1;
   return 0;
 }
