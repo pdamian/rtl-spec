@@ -59,4 +59,5 @@ $ ./collector.exe 5000
 $ ./sensor_cpu.exe 24000000 1766000000
 ```
 
-### Description
+#### Description
+![alt text](https://github.com/pdamian/rtl-spec/blob/master/images/processing_steps.png "Processing Steps")
