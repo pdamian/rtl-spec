@@ -354,6 +354,7 @@ static void* reception(void *args) {
       tcp_read(tcp_c, &reduced_fft_size, sizeof(uint32_t));
 #endif
       reduced_fft_size = ntohl(reduced_fft_size);
+      if(reduced_fft_size <= 0) break;
       
       // Read payload
       payload_size = (data_size + 3) & ~0x03;
