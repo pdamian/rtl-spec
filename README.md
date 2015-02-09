@@ -6,7 +6,7 @@ The following installation instructions are currently only tested for Debian-bas
 
 ## Dependencies
 ### libusb
-More details to libusb are available at http://www.libusb.org.
+libusb is a C library that gives applications easy access to USB devices on many different operating systems. RTL-Spec uses the library to interface the RTL-SDR USB dongle. More details to libusb are available at http://www.libusb.org.
 ```sh
 $ sudo apt-get install libusb-1.0-0-dev
 ```
