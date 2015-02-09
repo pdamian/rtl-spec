@@ -93,14 +93,10 @@ int main(int argc, char *argv[]) {
 #if defined(VERBOSE)
     tcp_disconnect_p(tcp_wel);
     tcp_release_p(tcp_wel);
-//     tcp_disconnect_p(tcp_cli);
-//     tcp_release_p(tcp_cli);
     free(tcp_cli);
 #else
     tcp_disconnect(tcp_wel);
     tcp_release(tcp_wel);
-//     tcp_disconnect(tcp_cli);
-//     tcp_release(tcp_cli);
     free(tcp_cli);
 #endif
     
