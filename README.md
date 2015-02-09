@@ -33,7 +33,7 @@ $ cd ../../
 ```
 
 ### fftw
-More details to fftw are available at http://www.fftw.org.
+fftw is a C library for computing the discrete Fourier transform (DFT). More details to fftw are available at http://www.fftw.org.
 ```sh
 $ sudo apt-get install fftw-dev
 ```
