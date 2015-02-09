@@ -12,7 +12,7 @@ $ sudo apt-get install libusb-1.0-0-dev
 ```
 
 ### librtlsdr
-More details to librtlsdr are available at http://sdr.osmocom.org.
+librtlsdr is a C library that turns RTL2832 based DVB-T dongles into SDR receivers. More details to librtlsdr are available at http://sdr.osmocom.org.
 ```sh
 $ git clone git://git.osmocom.org/rtl-sdr.git
 $ cd rtl-sdr/
