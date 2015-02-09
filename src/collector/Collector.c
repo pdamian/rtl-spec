@@ -403,6 +403,10 @@ static void* reception(void *args) {
     pthread_join(*(decmpr_ctx->thread->fd), NULL);
     pthread_join(*(stor_ctx->thread->fd), NULL);
     
+    // Free output queues
+    free(decmpr_arg->qsout);
+    free(stor_arg->qsout);
+    
     // Free data processing arguments
     free(decmpr_arg);
     free(stor_arg);
