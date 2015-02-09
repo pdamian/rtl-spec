@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <rtl-sdr.h>
 
-void SDR_initialize(rtlsdr_dev_t **dev);
+void SDR_initialize(rtlsdr_dev_t **dev, int dev_index);
 void SDR_set_sample_rate(rtlsdr_dev_t *dev, uint32_t samp_rate);
 void SDR_set_gain(rtlsdr_dev_t *dev, float gain);
 void SDR_set_freq_correction(rtlsdr_dev_t *dev, int ppm_error);

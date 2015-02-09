@@ -24,6 +24,7 @@
 #define DEFAULT_LOG2_FFT_SIZE 8
 #define DEFAULT_MONITOR_TIME 0
 #define DEFAULT_MIN_TIME_RES 0
+#define DEFAULT_DEV_INDEX 0
 #define DEFAULT_CLK_OFF 0
 #define DEFAULT_CLK_CORR_PERIOD 10
 #define DEFAULT_HOPPING_STRATEGY_STR "sequential"
@@ -80,6 +81,7 @@ typedef struct {
   unsigned int min_time_res;
   unsigned int fft_batchlen;
   unsigned int cmpr_level;
+  int          dev_index;
   int          clk_off;
   float        gain;
   float        freq_overlap;
@@ -90,6 +92,7 @@ typedef struct {
 
 typedef struct {
   Thread       *thread;
+  int          dev_index;
   int          clk_off;
 } FrequencyCorrectionCTX;
 
@@ -112,6 +115,7 @@ typedef struct {
   unsigned int cmpr_level;
   int          hopping_strategy_id;
   int          window_fun_id;
+  int          dev_index;
   int          clk_off;
   float        gain;
   float        freq_overlap;
@@ -319,11 +323,14 @@ int main(int argc, char *argv[]) {
   // Parse arguments and options
   void parse_args(int argc, char *argv[]) {
     int opt;
-    const char *options = "c:k:g:y:s:f:b:a:o:q:t:r:w:l:h:";
+    const char *options = "d:c:k:g:y:s:f:b:a:o:q:t:r:w:l:h:";
     
     // Option arguments
     while((opt = getopt(argc, argv, options)) != -1) {
       switch(opt) {
+	case 'd':
+	  manager_ctx->dev_index = atoi(optarg);
+	  break;
 	case 'c':
 	  manager_ctx->clk_off = atoi(optarg);
 	  break;
@@ -384,6 +391,7 @@ int main(int argc, char *argv[]) {
       fprintf(stderr,
 	"Usage:\n"
 	"  %s min_freq max_freq\n"
+	"  [-d <dev_index>]\n"
 	"  [-c <clk_off>] [-k <clk_corr_period>]\n"
 	"  [-g <gain>]\n"
 	"  [-y <hopping_strategy>]\n"
@@ -400,6 +408,7 @@ int main(int argc, char *argv[]) {
 	"  max_freq               Upper frequency bound in Hz\n"
 	"\n"
 	"Options:\n"
+	"  -d <dev_index>         RTL-SDR device index [default=%i]\n"
 	"  -c <clk_off>           Clock offset in PPM [default=%i]\n"
 	"  -k <clk_corr_period>   Clock correction period in seconds [default=%u]\n"
 	"                           i.e. perform frequency correction every 'clk_corr_period'\n"
@@ -441,6 +450,7 @@ int main(int argc, char *argv[]) {
 	"                           Bandwidth limitation in Kb/s\n"
 	"",
 	argv[0],
+	manager_ctx->dev_index,
 	manager_ctx->clk_off, manager_ctx->clk_corr_period,
 	manager_ctx->gain,
 	manager_ctx->hopping_strategy_str,
@@ -465,6 +475,7 @@ int main(int argc, char *argv[]) {
   
   // Initialize sensor contexts
   manager_ctx = (ManagerCTX *) malloc(sizeof(ManagerCTX));
+  manager_ctx->dev_index = DEFAULT_DEV_INDEX;
   manager_ctx->clk_off = DEFAULT_CLK_OFF;
   manager_ctx->clk_corr_period = DEFAULT_CLK_CORR_PERIOD;
   manager_ctx->samp_rate = DEFAULT_SAMP_RATE;
@@ -487,11 +498,13 @@ int main(int argc, char *argv[]) {
   
   freq_corr_ctx = (FrequencyCorrectionCTX *) malloc(sizeof(FrequencyCorrectionCTX));
   freq_corr_ctx->clk_off = manager_ctx->clk_off;
+  freq_corr_ctx->dev_index = manager_ctx->dev_index;
   THR_initialize(&(freq_corr_ctx->thread), THR_FREQ_CORR);
   
   spec_moni_ctx = (SpectrumMonitoringCTX *) malloc(sizeof(SpectrumMonitoringCTX));
   spec_moni_ctx->min_freq = manager_ctx->min_freq;
   spec_moni_ctx->max_freq = manager_ctx->max_freq;
+  spec_moni_ctx->dev_index = manager_ctx->dev_index;
   spec_moni_ctx->clk_off = manager_ctx->clk_off;
   spec_moni_ctx->samp_rate = manager_ctx->samp_rate;
   spec_moni_ctx->log2_fft_size = manager_ctx->log2_fft_size;
@@ -519,7 +532,7 @@ int main(int argc, char *argv[]) {
   THR_initialize(&(spec_moni_ctx->thread), THR_SPEC_MONI);
   
   // Initialize RTL-SDR device and associated lock to guarantee mutual exclusive access 
-  SDR_initialize(&rtlsdr_dev);
+  SDR_initialize(&rtlsdr_dev, spec_moni_ctx->dev_index);
   rtlsdr_mut = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
   pthread_mutex_init(rtlsdr_mut, NULL);
   
@@ -693,7 +706,7 @@ static void* frequency_correction(void *args) {
 //     }
 //     
 //     // Acquire RTL-SDR device
-//     SDR_initialize(&rtlsdr_dev);
+//     SDR_initialize(&rtlsdr_dev, freq_corr_ctx->dev_index);
 //     
 //     // Release lock to RTL-SDR device
 //     pthread_mutex_unlock(rtlsdr_mut);

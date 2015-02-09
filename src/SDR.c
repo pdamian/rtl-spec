@@ -1,17 +1,9 @@
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <string.h>
-// #include <rtl-sdr.h>
-
 #include "include/SDR.h"
-
-static int dev_index = 0;
-// static rtlsdr_dev_t *dev;
 
 /*
  * SDR_initialize - allocate memory and initialize device
  */
- void SDR_initialize(rtlsdr_dev_t **dev) {
+ void SDR_initialize(rtlsdr_dev_t **dev, int dev_index) {
   int r, dev_count;
   
   // Count RTL-SDR devices
@@ -27,19 +19,6 @@ static int dev_index = 0;
     fprintf(stderr, "Failed to open rtlsdr device #%d\n", dev_index);
     exit(1);
   }
-  
-//   /*
-//    * NOTE: Read out what's in the FPGA
-//    */
-//   int len = 128;
-//   int16_t sreg_val;
-//   uint8_t *buf = (uint8_t *) malloc(len * sizeof(uint8_t));
-//   r = rtlsdr_read_eeprom(dev, buf, 0, len);
-//   fprintf(stderr, "Reading EEPROM: %i\n", r);
-//   for(r=0; r<len; ++r) {
-//     sreg_val = buf[r] > 128 ? buf[r] - 256 : buf[r];
-//     fprintf(stderr, "0x%2.2x: %i\n", 0xa0+r, sreg_val);
-//   }
 }
 
 /*
