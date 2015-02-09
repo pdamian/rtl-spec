@@ -50,10 +50,13 @@ $ cd rtl-spec/
 $ make collector CFLAGS="-O2 -DVERBOSE"
 $ make sensor_cpu CFLAGS="-O2 -DVERBOSE"
 ```
+
+```sh
     make <TARGET> [CFLAGS="<CFLAGS>"]
     <TARGET> = sensor_cpu | sensor_gpu | collector
     <CFLAGS> = [-O2] [-ggdb] [-DVERBOSE] [...]
-    
+```
+
 #### Running
 Example:
 ```sh
