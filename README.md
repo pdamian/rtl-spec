@@ -1,6 +1,6 @@
 RTL-Spec
 ========
-*rtl-spec* is an open-source software project demonstrating the software-defined sensor architecture for distributed low-cost wideband spectrum sensing as proposed by the paper **A Software-defined Sensor Architecture for Large-scale Wideband Spectrum Monitoring**.
+*rtl-spec* is an open source implementation of the proposals done by D. Pfammatter, D. Giustiniano and V. Lenders in **"A Software-defined Sensor Architecture for Large-scale Wideband Spectrum Monitoring"**.
 
 # Installation
 The following installation instructions are currently only tested for Debian-based Linux operating systems (such as Ubuntu or Raspbian).
