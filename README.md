@@ -55,8 +55,8 @@ $ make sensor_cpu CFLAGS="-O2 -DVERBOSE"
     
 #### Running
 ```sh
-$ ./collector.exe 5000
-$ ./sensor_cpu.exe 24000000 1766000000
+$ ./run_collector 5000
+$ ./run_cpu_sensor 24000000 1766000000
 ```
 
 #### Description
