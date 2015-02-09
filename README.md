@@ -61,4 +61,13 @@ $ ./run_cpu_sensor 24000000 1766000000
 
 #### Description
 Multiple sensing nodes can be served by a remote collecting unit. The RF spectrum data recorded by sensors is transmitted over TCP to an associated collector which dumps the received raw data to the local file system. The following figure highlights the involved processing steps:
+
 ![alt text](https://github.com/pdamian/rtl-spec/blob/master/images/processing_steps.png "Processing Steps")
+
+The dumped data is stored in the following format:
+
+| Seconds since UNIX Epoch [secs] | Timestamp Extension [microsecs] | Frequency [Hz] | Squared Magnitude Value (dB) |
+| ------------------------------- | ------------------------------- | -------------- | ---------------------------- |
+| 1423490796                      | 854275                          | 23996876       | -33.9                        |
+| 1423490796                      | 854275                          | 24006250       | -20.6                        |
+| ...                             | ...                             | ...            | ...                          |
