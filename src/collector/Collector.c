@@ -131,11 +131,13 @@ int main(int argc, char *argv[]) {
   // Parse arguments and options
   void parse_args(int argc, char *argv[]) {
     int opt;
-    const char *options = "p:t:f:";
+    const char *options = "hp:t:f:";
     
     // Option arguments
     while((opt = getopt(argc, argv, options)) != -1) {
       switch(opt) {
+	case 'h':
+	  goto usage;
 	case 'p':
 	  coll_ctx->thread_pool_size = atol(optarg);
 	  break;
@@ -156,6 +158,7 @@ int main(int argc, char *argv[]) {
       fprintf(stderr,
 	"Usage:\n"
 	"  %s portnumber\n"
+	"  [-h]\n"
 	"  [-p <thread_pool_size>]\n"
 	"  [-t <file_time>] [-f <file_path>]\n"
 #if defined(APACHE_KAFKA)
@@ -167,6 +170,7 @@ int main(int argc, char *argv[]) {
 	"  portnumber               Port number\n"
 	"\n"
 	"Options:\n"
+	"  -h                       Show this help\n"
 	"  -p <thread_pool_size>    Maximal number of simultaneous connections [default=%u]\n"
 	"  -t <file_time>           Time in seconds after which to split files [default=%u]\n"
 	"  -f <file_path>           Path to folder where collected data can be stored [default=%s]\n"

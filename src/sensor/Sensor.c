@@ -323,11 +323,13 @@ int main(int argc, char *argv[]) {
   // Parse arguments and options
   void parse_args(int argc, char *argv[]) {
     int opt;
-    const char *options = "d:c:k:g:y:s:f:b:a:o:q:t:r:w:l:h:";
+    const char *options = "hd:c:k:g:y:s:f:b:a:o:q:t:r:w:l:m:";
     
     // Option arguments
     while((opt = getopt(argc, argv, options)) != -1) {
       switch(opt) {
+	case 'h':
+	  goto usage;
 	case 'd':
 	  manager_ctx->dev_index = atoi(optarg);
 	  break;
@@ -377,7 +379,7 @@ int main(int argc, char *argv[]) {
 	  manager_ctx->cmpr_level = atol(optarg);
 	  if(manager_ctx->cmpr_level > 9) manager_ctx->cmpr_level = DEFAULT_CMPR_LEVEL;
 	  break;
-	case 'h':
+	case 'm':
 	  manager_ctx->tcp_hosts = optarg;
 	  break;
 	default:
@@ -391,6 +393,7 @@ int main(int argc, char *argv[]) {
       fprintf(stderr,
 	"Usage:\n"
 	"  %s min_freq max_freq\n"
+	"  [-h]\n"
 	"  [-d <dev_index>]\n"
 	"  [-c <clk_off>] [-k <clk_corr_period>]\n"
 	"  [-g <gain>]\n"
@@ -401,13 +404,14 @@ int main(int argc, char *argv[]) {
 	"  [-t <monitor_time>] [-r <min_time_res>]\n"
 	"  [-w <window>]\n"
 	"  [-l <cmpr_level>]\n"
-	"  [-h <hostname1>:<portnumber1>[;<bandwidth1>],...,<hostnameN>:<portnumberN>[;bandwidthN]]\n"
+	"  [-m <hostname1>:<portnumber1>[;<bandwidth1>],...,<hostnameN>:<portnumberN>[;bandwidthN]]\n"
 	"\n"
 	"Arguments:\n"
 	"  min_freq               Lower frequency bound in Hz\n"
 	"  max_freq               Upper frequency bound in Hz\n"
 	"\n"
 	"Options:\n"
+	"  -h                     Show this help\n"
 	"  -d <dev_index>         RTL-SDR device index [default=%i]\n"
 	"  -c <clk_off>           Clock offset in PPM [default=%i]\n"
 	"  -k <clk_corr_period>   Clock correction period in seconds [default=%u]\n"
@@ -445,7 +449,7 @@ int main(int argc, char *argv[]) {
 	"  -l <cmpr_level>        Compression level [default=%u]\n"
 	"                           0 for no compression, fastest\n"
 	"                           9 for highest compression, slowest\n"
-	"  -h <hostname1>:<portnumber1>[;<bandwidth1>],...,<hostnameN>:<portnumberN>[;<bandwidthN>]\n"
+	"  -m <hostname1>:<portnumber1>[;<bandwidth1>],...,<hostnameN>:<portnumberN>[;<bandwidthN>]\n"
 	"                         TCP collector hosts [default=%s]\n"
 	"                           Bandwidth limitation in Kb/s\n"
 	"",
