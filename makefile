@@ -18,9 +18,9 @@ LDFLAGS_CPU = -lpthread -lz -lrt -lm `pkg-config --cflags --libs librtlsdr` -lff
 LDFLAGS_GPU = -lpthread -lz -lrt -lm `pkg-config --cflags --libs librtlsdr`
 LDFLAGS_COL = -lpthread -lz -lrt
 
-EXE_CPU = sensor_cpu.exe
-EXE_GPU = sensor_gpu.exe
-EXE_COL = collector.exe
+EXE_CPU = run_cpu_sensor
+EXE_GPU = run_gpu_sensor
+EXE_COL = run_collector
 
 MKDIR_P = mkdir -p
 
