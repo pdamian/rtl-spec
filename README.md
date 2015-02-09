@@ -6,13 +6,13 @@ The following installation instructions are currently only tested for Debian-bas
 
 ## Dependencies
 ### libusb
-More details to libusb are available at http://www.libusb.org.
+libusb is a C library that gives applications easy access to USB devices on many different operating systems. RTL-Spec uses the library to interface the RTL-SDR USB dongle. More details to libusb are available at http://www.libusb.org.
 ```sh
 $ sudo apt-get install libusb-1.0-0-dev
 ```
 
 ### librtlsdr
-More details to librtlsdr are available at http://sdr.osmocom.org.
+librtlsdr is a C library that turns RTL2832 based DVB-T dongles into SDR receivers. More details to librtlsdr are available at http://sdr.osmocom.org.
 ```sh
 $ git clone git://git.osmocom.org/rtl-sdr.git
 $ cd rtl-sdr/
@@ -33,7 +33,7 @@ $ cd ../../
 ```
 
 ### fftw
-More details to fftw are available at http://www.fftw.org.
+fftw is a C library for computing the discrete Fourier transform (DFT). More details to fftw are available at http://www.fftw.org.
 ```sh
 $ sudo apt-get install fftw-dev
 ```
