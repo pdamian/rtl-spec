@@ -1804,17 +1804,17 @@ static void* sampling_windowing(void *args) {
 	  // Wait for output queue not being full
 	  pthread_mutex_lock(qsout[0]->mut);
 	  while(qsout[0]->full) {
-    #if defined(VERBOSE) || defined(VERBOSE_SAWI)
+#if defined(VERBOSE) || defined(VERBOSE_SAWI)
 	    fprintf(stderr, "[SAWI] Output queue 0 full.\n");
-    #endif
+#endif
 	    pthread_cond_wait(qsout[0]->notFull, qsout[0]->mut);
 	  }
 	  QUE_insert(qsout[0], iout);
+#if defined(VERBOSE) || defined(VERBOSE_SAWI)
+	  fprintf(stderr, "[SAWI] Push item %u to output queue 0.\n", iout->avg_index);
+#endif
 	  pthread_mutex_unlock(qsout[0]->mut);
 	  pthread_cond_signal(qsout[0]->notEmpty);
-    #if defined(VERBOSE) || defined(VERBOSE_SAWI)
-	  fprintf(stderr, "[SAWI] Push item %u to output queue 0.\n", iout->avg_index);
-    #endif
 	}
 	// Multiple output queues
 	else if(qsout_cnt > 1) {
@@ -1823,19 +1823,19 @@ static void* sampling_windowing(void *args) {
 	    // Wait for output queue not being full
 	    pthread_mutex_lock(qsout[k]->mut);
 	    while(qsout[k]->full) {
-      #if defined(VERBOSE) || defined(VERBOSE_SAWI)
+#if defined(VERBOSE) || defined(VERBOSE_SAWI)
 	      fprintf(stderr, "[SAWI] Output queue %zd full.\n", k);
-      #endif
+#endif
 	      pthread_cond_wait(qsout[k]->notFull, qsout[k]->mut);
 	    }
 	    nout = ITE_copy(iout);
 	    // Write item to output queue
 	    QUE_insert(qsout[k], nout);
+#if defined(VERBOSE) || defined(VERBOSE_SAWI)
+	    fprintf(stderr, "[SAWI] Push item %u to output queue %zd.\n", nout->avg_index, k);
+#endif
 	    pthread_mutex_unlock(qsout[k]->mut);
 	    pthread_cond_signal(qsout[k]->notEmpty);
-      #if defined(VERBOSE) || defined(VERBOSE_SAWI)
-	    fprintf(stderr, "[SAWI] Push item %u to output queue %zd.\n", nout->avg_index, k);
-      #endif
 	  }
 	  // Release item
 	  ITE_free(iout);
@@ -1968,17 +1968,17 @@ static void* fft(void *args) {
 	      // Wait for output queue not being full
 	      pthread_mutex_lock(qsout[0]->mut);
 	      while(qsout[0]->full) {
-	#if defined(VERBOSE) || defined(VERBOSE_FFT)
+#if defined(VERBOSE) || defined(VERBOSE_FFT)
 		fprintf(stderr, "[FFT ] Output queue 0 full.\n");
-	#endif
+#endif
 		pthread_cond_wait(qsout[0]->notFull, qsout[0]->mut);
 	      }
 	      QUE_insert(qsout[0], its[i]);
+#if defined(VERBOSE) || defined(VERBOSE_FFT)
+	      fprintf(stderr, "[FFT ] Push item %u to output queue 0.\n", its[i]->avg_index);
+#endif
 	      pthread_mutex_unlock(qsout[0]->mut);
 	      pthread_cond_signal(qsout[0]->notEmpty);
-	#if defined(VERBOSE) || defined(VERBOSE_FFT)
-	      fprintf(stderr, "[FFT ] Push item %u to output queue 0.\n", its[i]->avg_index);
-	#endif
 	    }
 	    // Multiple output queues
 	    else if(qsout_cnt > 1) {
@@ -1987,19 +1987,19 @@ static void* fft(void *args) {
 		// Wait for output queue not being full
 		pthread_mutex_lock(qsout[k]->mut);
 		while(qsout[k]->full) {
-	  #if defined(VERBOSE) || defined(VERBOSE_FFT)
+#if defined(VERBOSE) || defined(VERBOSE_FFT)
 		  fprintf(stderr, "[FFT ] Output queue %zd full.\n", k);
-	  #endif
+#endif
 		  pthread_cond_wait(qsout[k]->notFull, qsout[k]->mut);
 		}
 		nout = ITE_copy(its[i]);
 		// Write item to output queue
 		QUE_insert(qsout[k], nout);
+#if defined(VERBOSE) || defined(VERBOSE_FFT)
+		fprintf(stderr, "[FFT ] Push item %u to output queue %zd.\n", nout->avg_index, k);
+#endif
 		pthread_mutex_unlock(qsout[k]->mut);
 		pthread_cond_signal(qsout[k]->notEmpty);
-	  #if defined(VERBOSE) || defined(VERBOSE_FFT)
-		fprintf(stderr, "[FFT ] Push item %u to output queue %zd.\n", nout->avg_index, k);
-	  #endif
 	      }
 	      // Release item
 	      ITE_free(its[i]);
@@ -2059,17 +2059,17 @@ static void* fft(void *args) {
 	    // Wait for output queue not being full
 	    pthread_mutex_lock(qsout[0]->mut);
 	    while(qsout[0]->full) {
-      #if defined(VERBOSE) || defined(VERBOSE_FFT)
+#if defined(VERBOSE) || defined(VERBOSE_FFT)
 	      fprintf(stderr, "[FFT ] Output queue 0 full.\n");
-      #endif
+#endif
 	      pthread_cond_wait(qsout[0]->notFull, qsout[0]->mut);
 	    }
 	    QUE_insert(qsout[0], its[i]);
+#if defined(VERBOSE) || defined(VERBOSE_FFT)
+	    fprintf(stderr, "[FFT ] Push item %u to output queue 0.\n", its[i]->avg_index);
+#endif
 	    pthread_mutex_unlock(qsout[0]->mut);
 	    pthread_cond_signal(qsout[0]->notEmpty);
-      #if defined(VERBOSE) || defined(VERBOSE_FFT)
-	    fprintf(stderr, "[FFT ] Push item %u to output queue 0.\n", its[i]->avg_index);
-      #endif
 	  }
 	  // Multiple output queues
 	  else if(qsout_cnt > 1) {
@@ -2078,19 +2078,19 @@ static void* fft(void *args) {
 	      // Wait for output queue not being full
 	      pthread_mutex_lock(qsout[k]->mut);
 	      while(qsout[k]->full) {
-	#if defined(VERBOSE) || defined(VERBOSE_FFT)
+#if defined(VERBOSE) || defined(VERBOSE_FFT)
 		fprintf(stderr, "[FFT ] Output queue %zd full.\n", k);
-	#endif
+#endif
 		pthread_cond_wait(qsout[k]->notFull, qsout[k]->mut);
 	      }
 	      nout = ITE_copy(its[i]);
 	      // Write item to output queue
 	      QUE_insert(qsout[k], nout);
+#if defined(VERBOSE) || defined(VERBOSE_FFT)
+	      fprintf(stderr, "[FFT ] Push item %u to output queue %zd.\n", nout->avg_index, k);
+#endif
 	      pthread_mutex_unlock(qsout[k]->mut);
 	      pthread_cond_signal(qsout[k]->notEmpty);
-	#if defined(VERBOSE) || defined(VERBOSE_FFT)
-	      fprintf(stderr, "[FFT ] Push item %u to output queue %zd.\n", nout->avg_index, k);
-	#endif
 	    }
 	    // Release item
 	    ITE_free(its[i]);
@@ -2131,17 +2131,17 @@ static void* fft(void *args) {
 	    // Wait for output queue not being full
 	    pthread_mutex_lock(qsout[0]->mut);
 	    while(qsout[0]->full) {
-      #if defined(VERBOSE) || defined(VERBOSE_FFT)
+#if defined(VERBOSE) || defined(VERBOSE_FFT)
 	      fprintf(stderr, "[FFT ] Output queue 0 full.\n");
-      #endif
+#endif
 	      pthread_cond_wait(qsout[0]->notFull, qsout[0]->mut);
 	    }
 	    QUE_insert(qsout[0], its[i]);
+#if defined(VERBOSE) || defined(VERBOSE_FFT)
+	    fprintf(stderr, "[FFT ] Push item %u to output queue 0.\n", its[i]->avg_index);
+#endif
 	    pthread_mutex_unlock(qsout[0]->mut);
 	    pthread_cond_signal(qsout[0]->notEmpty);
-      #if defined(VERBOSE) || defined(VERBOSE_FFT)
-	    fprintf(stderr, "[FFT ] Push item %u to output queue 0.\n", its[i]->avg_index);
-      #endif
 	  }
 	  // Multiple output queues
 	  else if(qsout_cnt > 1) {
@@ -2150,19 +2150,19 @@ static void* fft(void *args) {
 	      // Wait for output queue not being full
 	      pthread_mutex_lock(qsout[k]->mut);
 	      while(qsout[k]->full) {
-	#if defined(VERBOSE) || defined(VERBOSE_FFT)
+#if defined(VERBOSE) || defined(VERBOSE_FFT)
 		fprintf(stderr, "[FFT ] Output queue %zd full.\n", k);
-	#endif
+#endif
 		pthread_cond_wait(qsout[k]->notFull, qsout[k]->mut);
 	      }
 	      nout = ITE_copy(its[i]);
 	      // Write item to output queue
 	      QUE_insert(qsout[k], nout);
+#if defined(VERBOSE) || defined(VERBOSE_FFT)
+	      fprintf(stderr, "[FFT ] Push item %u to output queue %zd.\n", nout->avg_index, k);
+#endif
 	      pthread_mutex_unlock(qsout[k]->mut);
 	      pthread_cond_signal(qsout[k]->notEmpty);
-	#if defined(VERBOSE) || defined(VERBOSE_FFT)
-	      fprintf(stderr, "[FFT ] Push item %u to output queue %zd.\n", nout->avg_index, k);
-	#endif
 	    }
 	    // Release item
 	    ITE_free(its[i]);
@@ -2297,11 +2297,11 @@ static void* averaging(void *args) {
 	pthread_cond_wait(qsout[0]->notFull, qsout[0]->mut);
       }
       QUE_insert(qsout[0], iout);
-      pthread_mutex_unlock(qsout[0]->mut);
-      pthread_cond_signal(qsout[0]->notEmpty);
 #if defined(VERBOSE) || defined(VERBOSE_AVG)
       fprintf(stderr, "[AVG ] Push item %u to output queue 0.\n", iout->avg_index);
 #endif
+      pthread_mutex_unlock(qsout[0]->mut);
+      pthread_cond_signal(qsout[0]->notEmpty);
     }
     // Multiple output queues
     else if(qsout_cnt > 1) {
@@ -2310,19 +2310,19 @@ static void* averaging(void *args) {
 	// Wait for output queue not being full
 	pthread_mutex_lock(qsout[k]->mut);
 	while(qsout[k]->full) {
-  #if defined(VERBOSE) || defined(VERBOSE_AVG)
+#if defined(VERBOSE) || defined(VERBOSE_AVG)
 	  fprintf(stderr, "[AVG ] Output queue %zd full.\n", k);
-  #endif
+#endif
 	  pthread_cond_wait(qsout[k]->notFull, qsout[k]->mut);
 	}
 	nout = ITE_copy(iout);
 	// Write item to output queue
 	QUE_insert(qsout[k], nout);
+#if defined(VERBOSE) || defined(VERBOSE_AVG)
+	fprintf(stderr, "[AVG ] Push item %u to output queue %zd.\n", nout->avg_index, k);
+#endif
 	pthread_mutex_unlock(qsout[k]->mut);
 	pthread_cond_signal(qsout[k]->notEmpty);
-  #if defined(VERBOSE) || defined(VERBOSE_AVG)
-	fprintf(stderr, "[AVG ] Push item %u to output queue %zd.\n", nout->avg_index, k);
-  #endif
       }
       // Release item
       ITE_free(iout);
@@ -2477,11 +2477,11 @@ static void* compression(void *args) {
 	pthread_cond_wait(qsout[0]->notFull, qsout[0]->mut);
       }
       QUE_insert(qsout[0], iout);
-      pthread_mutex_unlock(qsout[0]->mut);
-      pthread_cond_signal(qsout[0]->notEmpty);
 #if defined(VERBOSE) || defined(VERBOSE_CMPR)
       fprintf(stderr, "[CMPR] Push item %u to output queue 0.\n", iout->avg_index);
 #endif
+      pthread_mutex_unlock(qsout[0]->mut);
+      pthread_cond_signal(qsout[0]->notEmpty);
     }
     // Multiple output queues
     else if(qsout_cnt > 1) {
@@ -2490,19 +2490,19 @@ static void* compression(void *args) {
 	// Wait for output queue not being full
 	pthread_mutex_lock(qsout[k]->mut);
 	while(qsout[k]->full) {
-  #if defined(VERBOSE) || defined(VERBOSE_CMPR)
+#if defined(VERBOSE) || defined(VERBOSE_CMPR)
 	  fprintf(stderr, "[CMPR] Output queue %zd full.\n", k);
-  #endif
+#endif
 	  pthread_cond_wait(qsout[k]->notFull, qsout[k]->mut);
 	}
 	nout = ITE_copy(iout);
 	// Write item to output queue
 	QUE_insert(qsout[k], nout);
+#if defined(VERBOSE) || defined(VERBOSE_CMPR)
+	fprintf(stderr, "[CMPR] Push item %u to output queue %zd.\n", nout->avg_index, k);
+#endif
 	pthread_mutex_unlock(qsout[k]->mut);
 	pthread_cond_signal(qsout[k]->notEmpty);
-  #if defined(VERBOSE) || defined(VERBOSE_CMPR)
-	fprintf(stderr, "[CMPR] Push item %u to output queue %zd.\n", nout->avg_index, k);
-  #endif
       }
       // Release item
       ITE_free(iout);
