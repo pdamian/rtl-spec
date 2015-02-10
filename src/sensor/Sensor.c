@@ -540,8 +540,12 @@ int main(int argc, char *argv[]) {
   rtlsdr_mut = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
   pthread_mutex_init(rtlsdr_mut, NULL);
   
-#if defined(RPI_GPU) && (defined(VERBOSE) || defined(TID))
+#if defined(VERBOSE) || defined(TID)
+#if defined(RPI_GPU)
   fprintf(stderr, "[SMAN] Started.\tTID: %li\n", (long int) syscall(224));
+#else
+  fprintf(stderr, "[SMAN] Started.\n");
+#endif
 #endif
   
   // Initialize senor arguments
@@ -669,9 +673,13 @@ static void* frequency_correction(void *args) {
   freq_corr_arg = (FrequencyCorrectionARG *) args;
   manager_ctx = (ManagerCTX *) freq_corr_arg->manager_ctx;
   freq_corr_ctx = (FrequencyCorrectionCTX *) freq_corr_arg->freq_corr_ctx;
-
-#if defined(RPI_GPU) && (defined(VERBOSE) || defined(TID))
+  
+#if defined(VERBOSE) || defined(TID)
+#if defined(RPI_GPU)
   fprintf(stderr, "[FCOR] Started.\tTID: %li\n", (long int) syscall(224));
+#else
+  fprintf(stderr, "[FCOR] Started.\n");
+#endif
 #endif
   
   // Signal manager that we are ready
@@ -1563,8 +1571,12 @@ EXIT_SPECTRUM_MONITORING:
   manager_ctx = (ManagerCTX *) spec_moni_arg->manager_ctx;
   spec_moni_ctx = (SpectrumMonitoringCTX *) spec_moni_arg->spec_moni_ctx;
   
-#if defined(RPI_GPU) && (defined(VERBOSE) || defined(TID))
+#if defined(VERBOSE) || defined(TID)
+#if defined(RPI_GPU)
   fprintf(stderr, "[SMON] Started.\tTID: %li\n", (long int) syscall(224));
+#else
+  fprintf(stderr, "[SMON] Started.\n");
+#endif
 #endif
   
   // Signal manager that we are ready
