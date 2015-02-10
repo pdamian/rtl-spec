@@ -1651,8 +1651,12 @@ static void* sampling_windowing(void *args) {
   // Release lock to RTL-SDR device
   pthread_mutex_unlock(rtlsdr_mut);
   
-#if defined(RPI_GPU) && (defined(VERBOSE) || defined(TID))
+#if defined(VERBOSE) || defined(VERBOSE_SAWI) || defined(TID)
+#if defined(RPI_GPU)
   fprintf(stderr, "[SAWI] Started.\tTID: %li\n", (long int) syscall(224));
+#else
+  fprintf(stderr, "[SAWI] Started.\n");
+#endif
 #endif
   
   // Signal monitoring logic that we are ready
@@ -1932,9 +1936,13 @@ static void* fft(void *args) {
   its = (Item **) malloc(fft_batchlen*sizeof(Item *));
   batch_in = (float **) malloc(fft_batchlen*sizeof(float *));
   batch_out = (float **) malloc(fft_batchlen*sizeof(float *));
-  
-#if defined(RPI_GPU) && (defined(VERBOSE) || defined(VERBOSE_FFT) || defined(TID))
+
+#if defined(VERBOSE) || defined(VERBOSE_FFT) || defined(TID)
+#if defined(RPI_GPU)
   fprintf(stderr, "[FFT ] Started.\tTID: %li\n", (long int) syscall(224));
+#else
+  fprintf(stderr, "[FFT ] Started.\n");
+#endif
 #endif
 
   while(1) {
@@ -2218,8 +2226,12 @@ static void* averaging(void *args) {
   qsout = (Queue **) avg_arg->qsout;
   qsout_cnt = avg_arg->qsout_cnt;
   
-#if defined(RPI_GPU) && (defined(VERBOSE) || defined(TID))
+#if defined(VERBOSE) || defined(VERBOSE_AVG) || defined(TID)
+#if defined(RPI_GPU)
   fprintf(stderr, "[AVG ] Started.\tTID: %li\n", (long int) syscall(224));
+#else
+  fprintf(stderr, "[AVG ] Started.\n");
+#endif
 #endif
   
   while(1) {
@@ -2378,8 +2390,12 @@ static void* compression(void *args) {
   qsout = (Queue **) cmpr_arg->qsout;
   qsout_cnt = cmpr_arg->qsout_cnt;
   
-#if defined(RPI_GPU) && (defined(VERBOSE) || defined(TID))
+#if defined(VERBOSE) || defined(VERBOSE_CMPR) || defined(TID)
+#if defined(RPI_GPU)
   fprintf(stderr, "[CMPR] Started.\tTID: %li\n", (long int) syscall(224));
+#else
+  fprintf(stderr, "[CMPR] Started.\n");
+#endif
 #endif
   
   while(1) {
@@ -2572,8 +2588,12 @@ static void* tcp_transmission(void *args) {
   tcp_ports = tcp_trns_ctx->tcp_ports;
   tcp_bandwidths = tcp_trns_ctx->tcp_bandwidths;
 
-#if defined(RPI_GPU) && (defined(VERBOSE) || defined(TID))
+#if defined(VERBOSE) || defined(VERBOSE_TCP_TRNS) || defined(TID)
+#if defined(RPI_GPU)
   fprintf(stderr, "[TTRS] Started.\tTID: %li\n", (long int) syscall(224));
+#else
+  fprintf(stderr, "[TTRS] Started.\n");
+#endif
 #endif
   
   // Initialize TCP connections
