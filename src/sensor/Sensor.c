@@ -778,7 +778,7 @@ static void* spectrum_monitoring(void *args) {
     char     tcp_host_lst[STR_LEN_LONG];
     char     **tcp_hosts = NULL;
     uint32_t *tcp_ports = NULL;
-    int      *tcp_bandwidths;
+    int      *tcp_bandwidths = NULL;
 
     
     // Parse TCP hosts
