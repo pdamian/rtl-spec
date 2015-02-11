@@ -666,6 +666,7 @@ static void* frequency_correction(void *args) {
 //   char buf[100];
 //   FILE *f_kal;
   int enable_temp_sensor = 0;
+  char *temp_sensor = NULL;
   const char *temp_sensor_path = "/sys/bus/w1/devices/", *temp_sensor_file = "w1_slave";
   FILE *f_temp = NULL;
   DIR *d_temp_sensor_path, *d_temp_sensor;
@@ -693,21 +694,23 @@ static void* frequency_correction(void *args) {
     while((d_temp_sensor_serial = readdir(d_temp_sensor_path)) != NULL) {
       if((strcmp(d_temp_sensor_serial->d_name, ".") != 0) &&
 	 (strcmp(d_temp_sensor_serial->d_name, "..") != 0)) {
-	char *dir = (char *) malloc(
+	temp_sensor = (char *) malloc(
 	  strlen(temp_sensor_path) + strlen(d_temp_sensor_serial->d_name) + 
 	  strlen(temp_sensor_file) + 2);
-	strcpy(dir, temp_sensor_path);
-	strcat(dir, d_temp_sensor_serial->d_name);
-	if((d_temp_sensor = opendir(dir)) != NULL) {
-	  strcat(dir, "/");
-	  strcat(dir, temp_sensor_file);
-	  if((f_temp = fopen(dir, "r")) != NULL) {
+	strcpy(temp_sensor, temp_sensor_path);
+	strcat(temp_sensor, d_temp_sensor_serial->d_name);
+	strcat(temp_sensor, "/");
+	if((d_temp_sensor = opendir(temp_sensor)) != NULL) {
+	  strcat(temp_sensor, temp_sensor_file);
+	  if((f_temp = fopen(temp_sensor, "r")) != NULL) {
 	    enable_temp_sensor = 1;
+	    fclose(f_temp);
 	    break;
 	  }
 	  closedir(d_temp_sensor);
 	}
-	free(dir);
+	free(temp_sensor);
+	temp_sensor = NULL;
       }
     }
     closedir(d_temp_sensor_path);
@@ -758,7 +761,7 @@ static void* frequency_correction(void *args) {
 //     pthread_mutex_unlock(rtlsdr_mut);
     
     // Read temperature measures
-    if(enable_temp_sensor) {
+    if(enable_temp_sensor && (f_temp = fopen(temp_sensor, "r")) != NULL) {
       char res[4];
       fscanf(f_temp, "%*2x %*2x %*2x %*2x %*2x %*2x %*2x %*2x %*2x %*1c %*s %s", res);
       if(strcmp(res, "YES") == 0) {
@@ -769,6 +772,7 @@ static void* frequency_correction(void *args) {
 	fprintf(stderr, "[FCOR] Current temperature: %.3f degree Celsius.\n", temp);
 #endif
       }
+      fclose(f_temp);
       
       // TODO: Implement model to predict frequency error based on temperature variations
     }
