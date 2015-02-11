@@ -90,4 +90,5 @@ To overcome the sampling rate hardware limitations of low-cost radios (such as D
 - *Sequential*: Sequentially sweep over the band of interest in steps limited by the sampling rate
 - *Random*    : Inspect frequency bands (limited by the sampling rate) in a random fashion
 - *Similarity*: Visit frequency bands of particular interest more frequently than others
+
 For more information, please refer to **"A Software-defined Sensor Architecture for Large-scale Wideband Spectrum Monitoring"** [IPSN15].
