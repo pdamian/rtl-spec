@@ -72,7 +72,7 @@ Multiple spectrum sensing nodes can be served by a remote collecting unit. The R
 
 The dumped data is stored in the following format:
 
-| Seconds since UNIX Epoch [secs] | Timestamp Extension [microsecs] | Frequency [Hz] | Squared Magnitude Value (dB) |
+| Seconds since UNIX Epoch [secs] | Timestamp Extension [microsecs] | Frequency [Hz] | Squared Magnitude Value [dB] |
 | ------------------------------- | ------------------------------- | -------------- | ---------------------------- |
 | 1423490796                      | 854275                          | 23996876       | -33.9                        |
 | 1423490796                      | 854275                          | 24006250       | -20.6                        |
