@@ -59,12 +59,12 @@ $ make sensor_cpu CFLAGS="-O2 -DVERBOSE"
 ```
 
 #### Running
-Here, we provide the simplest example for running the collector and sensor instances built above. The collector listens on localhost port *5000* for incoming sensor data and dumps it to the local file system. The sensor monitors the frequency spectrum between 24 to 1766 MHz and transmits the recorded samples to the afore mentioned collector.
+Here, we provide the simplest example for running the collector and sensor instances built above. The collector listens on localhost port *5000* for incoming sensor data and dumps it to the local file system. The sensor monitors the frequency spectrum between *24 to 1766 MHz* and transmits the recorded samples to the afore mentioned collector.
 ```sh
 $ ./run_collector 5000
 $ ./run_cpu_sensor 24000000 1766000000
 ```
-Run collector and sensor with option *-h* to learn more on the individual configuration options:
+Run collector and sensor with option *-h* to learn more on the individual configuration options.
 ```sh
 $ ./run_collector -h
 $ ./run_cpu_sensor -h
