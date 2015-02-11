@@ -47,7 +47,7 @@ The software can be built as follows:
     <TARGET> = sensor_cpu | sensor_gpu | collector
     <CFLAGS> = [-O2] [-ggdb] [-DVERBOSE] [...]
 ```
-First, select the **target** you want to build. There are two options for building the sensor and a one for the collector. The target *sensor_gpu* compiles the sensor software for usage on dedicated hardware, i.e. the [Raspberry Pi](http://www.raspberrypi.org) (RPi). This will lead to some CPU intensive tasks, such as the FFT, being rolled out to the RPi's VideoCore IV GPU, improving overall sensing performance. Note that for FFT compuations on the VideoCore IV we rely on the library [GPU_FFT](http://www.aholme.co.uk/GPU_FFT/Main.htm), which typically comes preinstalled on Raspbian OS. In case you don't want to compile the sensor software for dedicated hardware, select the target *sensor_cpu*. The FFT will then be computed on general purpose CPUs using the [FFTW](http://http://www.fftw.org) library.
+First, select the **target** you want to build. There are two options for building the sensor and a one for the collector. The target *sensor_gpu* compiles the sensor software for usage on dedicated hardware, i.e. the [Raspberry Pi](http://www.raspberrypi.org) (RPi). This will lead to some CPU intensive tasks, such as the FFT, being rolled out to the RPi's VideoCore IV GPU, improving overall sensing performance. Note that for FFT computations on the VideoCore IV we rely on the library [GPU_FFT](http://www.aholme.co.uk/GPU_FFT/Main.htm), which typically comes preinstalled on Raspbian OS. In case you don't want to compile the sensor software for dedicated hardware, select the target *sensor_cpu*. The FFT will then be computed on general purpose CPUs using the [FFTW](http://http://www.fftw.org) library.
 
 Second, you can choose [gcc](https://gcc.gnu.org)'s **compilation flags**. Compiling any of the targets with flag *-DVERBOSE* will provide additional debugging information on stdout.
 
@@ -59,7 +59,7 @@ $ make sensor_cpu CFLAGS="-O2 -DVERBOSE"
 ```
 
 #### Running
-Next we provide the simplest example for running the collector and sensor instances built above:
+Here, we provide the simplest example for running the collector and sensor instances built above. The collector listens on localhost port *5000* for incoming sensor data and dumps it to the local file system. The sensor monitors the frequency spectrum between 24 to 1766 MHz and transmits the recorded samples to the afore mentioned collector.
 ```sh
 $ ./run_collector 5000
 $ ./run_cpu_sensor 24000000 1766000000
