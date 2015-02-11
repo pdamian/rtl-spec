@@ -40,23 +40,20 @@ $ sudo apt-get install fftw-dev
 ```
 
 ## RTL-Spec
-#### Cloning
-```sh
-$ git clone https://github.com/pdamian/rtl-spec.git
-```
 #### Building
-```sh
-$ cd rtl-spec/
-$ make collector CFLAGS="-O2 -DVERBOSE"
-$ make sensor_cpu CFLAGS="-O2 -DVERBOSE"
-```
-
+The software can be built as follows:
 ```sh
     make <TARGET> [CFLAGS="<CFLAGS>"]
     <TARGET> = sensor_cpu | sensor_gpu | collector
     <CFLAGS> = [-O2] [-ggdb] [-DVERBOSE] [...]
 ```
-The target *sensor_gpu* compiles the sensor software for usage on the [Raspberry Pi](www.raspberrypi.org).
+First, select the **target** you want to build. There are two options for building the sensor and a one for the collector. The target *sensor_gpu* compiles the sensor software for usage on dedicated hardware, i.e. the [Raspberry Pi](www.raspberrypi.org). This will lead to some CPU intensive tasks, such as the FFT, being rolled out to the Pi's VideoCore IV GPU (See [GPU_FFT](http://www.aholme.co.uk/GPU_FFT/Main.htm) for more information).
+
+```sh
+$ cd rtl-spec/
+$ make collector CFLAGS="-O2 -DVERBOSE"
+$ make sensor_cpu CFLAGS="-O2 -DVERBOSE"
+```
 
 #### Running
 Example:
