@@ -71,14 +71,23 @@ $ ./run_cpu_sensor -h
 ```
 
 # Description
-Multiple spectrum sensing nodes can be served by a single (remote) collecting unit. The RF spectrum data recorded by sensors is transmitted over TCP to the associated collector which dumps the received data to the local file system. The following figure highlights the involved processing steps:
+## Processing Steps
+Multiple spectrum sensing nodes can be served by a single (remote) collecting unit. The RF spectrum data recorded by sensors is transmitted over TCP to the associated collector which dumps the received data to the local file system. The following figure highlights the involved **processing steps**:
 
 ![alt text](https://github.com/pdamian/rtl-spec/blob/master/images/processing_steps.png "Processing Steps")
 
-The dumped data is stored in the following format:
+## Data Format
+The dumped **data** is stored in the following format:
 
 | Seconds since UNIX Epoch [secs] | Timestamp Extension [microsecs] | Frequency [Hz] | Squared Magnitude Value [dB] |
 | ------------------------------- | ------------------------------- | -------------- | ---------------------------- |
 | 1423490796                      | 854275                          | 23996876       | -33.9                        |
 | 1423490796                      | 854275                          | 24006250       | -20.6                        |
 | ...                             | ...                             | ...            | ...                          |
+
+## Wideband Scanning Strategies
+To overcome the sampling rate hardware limitations of low-cost radios (such as DVB-T USB dongles), the sensing software includes different **wideband scanning strategies**. Currently, you can choose from the following three options:
+- *Sequential*: Sequentially sweep over the band of interest in steps limited by the sampling rate
+- *Random*    : Inspect frequency bands (limited by the sampling rate) in a random fashion
+- *Similarity*: Visit frequency bands of particular interest more frequently than others
+For more information, please refer to **"A Software-defined Sensor Architecture for Large-scale Wideband Spectrum Monitoring"** [IPSN15].
