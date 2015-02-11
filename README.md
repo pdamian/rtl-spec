@@ -7,13 +7,13 @@ The following installation instructions are currently only tested for Debian-bas
 
 ## Dependencies
 ### libusb
-*libusb* is a C library that gives applications easy access to USB devices on many different operating systems. *rtl-spec* uses the library to interface the RTL-SDR USB dongle. More details to *libusb* are available at http://www.libusb.org.
+[libusb](http://www.libusb.org) is a C library that gives applications easy access to USB devices on many different operating systems. *rtl-spec* uses the library to interface the RTL-SDR USB dongle.
 ```sh
 $ sudo apt-get install libusb-1.0-0-dev
 ```
 
 ### librtlsdr
-*librtlsdr* is a C library that turns RTL2832 based DVB-T dongles into SDR receivers. More details to *librtlsdr* are available at http://sdr.osmocom.org.
+[librtlsdr](http://sdr.osmocom.org) is a C library that turns RTL2832 based DVB-T dongles into SDR receivers.
 ```sh
 $ git clone git://git.osmocom.org/rtl-sdr.git
 $ cd rtl-sdr/
@@ -34,7 +34,7 @@ $ cd ../../
 ```
 
 ### fftw
-*fftw* is a C library for computing the discrete Fourier transform (DFT). More details to *fftw* are available at http://www.fftw.org.
+[fftw](http://www.fftw.org) is a C library for computing the discrete Fourier transform (DFT).
 ```sh
 $ sudo apt-get install fftw-dev
 ```
@@ -56,6 +56,7 @@ $ make sensor_cpu CFLAGS="-O2 -DVERBOSE"
     <TARGET> = sensor_cpu | sensor_gpu | collector
     <CFLAGS> = [-O2] [-ggdb] [-DVERBOSE] [...]
 ```
+The target *sensor_gpu* compiles the sensor software for usage on the [Raspberry Pi](www.raspberrypi.org).
 
 #### Running
 Example:
