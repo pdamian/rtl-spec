@@ -7,7 +7,7 @@ The following installation instructions are currently only tested for Debian-bas
 
 ## Dependencies
 ### libusb
-[libusb](http://www.libusb.org) is a C library that gives applications easy access to USB devices on many different operating systems. *rtl-spec* uses the library to interface the RTL-SDR USB dongle.
+[libusb](http://www.libusb.org) is a C library that gives applications easy access to USB devices on many different operating systems. *rtl-spec* uses the library to interface [DVB-T USB dongles](http://www.rtl-sdr.com/buy-rtl-sdr-dvb-t-dongles) which are used in this project as cheap RF interfaces.
 ```sh
 $ sudo apt-get install libusb-1.0-0-dev
 ```
