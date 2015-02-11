@@ -59,12 +59,16 @@ $ make sensor_cpu CFLAGS="-O2 -DVERBOSE"
 ```
 
 #### Running
-Example:
+Next we provide the simplest example for running the collector and sensor instances built above:
 ```sh
 $ ./run_collector 5000
 $ ./run_cpu_sensor 24000000 1766000000
 ```
-Run with option *-h* for more help.
+Run collector and sensor with option *-h* to learn more on the individual configuration options:
+```sh
+$ ./run_collector -h
+$ ./run_cpu_sensor -h
+```
 
 # Description
 Multiple spectrum sensing nodes can be served by a remote collecting unit. The RF spectrum data recorded by sensors is transmitted over TCP to an associated collector which dumps the received data to the local file system. The following figure highlights the involved processing steps:
