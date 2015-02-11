@@ -11,6 +11,7 @@
 #include <zlib.h>
 #include <unistd.h>
 #include <getopt.h>
+#include <dirent.h>
 
 #include "../include/UTI.h"
 #include "../include/THR.h"
@@ -664,6 +665,11 @@ static void* frequency_correction(void *args) {
   
 //   char buf[100];
 //   FILE *f_kal;
+  int enable_temp_sensor = 0;
+  const char *temp_sensor_path = "/sys/bus/w1/devices/", *temp_sensor_file = "w1_slave";
+  FILE *f_temp = NULL;
+  DIR *d_temp_sensor_path, *d_temp_sensor;
+  struct dirent *d_temp_sensor_serial;
   
   FrequencyCorrectionARG *freq_corr_arg;
   ManagerCTX *manager_ctx;
@@ -674,12 +680,40 @@ static void* frequency_correction(void *args) {
   manager_ctx = (ManagerCTX *) freq_corr_arg->manager_ctx;
   freq_corr_ctx = (FrequencyCorrectionCTX *) freq_corr_arg->freq_corr_ctx;
   
-#if defined(VERBOSE) || defined(TID)
+#if defined(VERBOSE) || defined(VERBOSE_FCOR) || defined(TID)
 #if defined(RPI_GPU)
   fprintf(stderr, "[FCOR] Started.\tTID: %li\n", (long int) syscall(224));
 #else
   fprintf(stderr, "[FCOR] Started.\n");
 #endif
+#endif
+  
+  // Open temperature sensor file
+  if((d_temp_sensor_path = opendir(temp_sensor_path)) != NULL) {
+    while((d_temp_sensor_serial = readdir(d_temp_sensor_path)) != NULL) {
+      if((strcmp(d_temp_sensor_serial->d_name, ".") != 0) &&
+	 (strcmp(d_temp_sensor_serial->d_name, "..") != 0)) {
+	char *dir = (char *) malloc(
+	  strlen(temp_sensor_path) + strlen(d_temp_sensor_serial->d_name) + 
+	  strlen(temp_sensor_file) + 2);
+	strcpy(dir, temp_sensor_path);
+	strcat(dir, d_temp_sensor_serial->d_name);
+	if((d_temp_sensor = opendir(dir)) != NULL) {
+	  strcat(dir, "/");
+	  strcat(dir, temp_sensor_file);
+	  if((f_temp = fopen(dir, "r")) != NULL) {
+	    enable_temp_sensor = 1;
+	    break;
+	  }
+	  closedir(d_temp_sensor);
+	}
+	free(dir);
+      }
+    }
+    closedir(d_temp_sensor_path);
+  }
+#if defined(VERBOSE) || defined(VERBOSE_FCOR)
+  fprintf(stderr, "[FCOR] Temperature sensor %sfound.\n", enable_temp_sensor ? "" : "not ");
 #endif
   
   // Signal manager that we are ready
@@ -695,11 +729,11 @@ static void* frequency_correction(void *args) {
     pthread_mutex_unlock(freq_corr_ctx->thread->lock);
     
     // Perform frequency correction
-#if defined(VERBOSE)
+#if defined(VERBOSE) || defined(VERBOSE_FCOR)
     fprintf(stderr, "[FCOR] Run frequency correction.\n");
 #endif
     
-//     // TODO: gain, initial PPM error
+//     // TODO: Implement frequency correction based on GSM signals
 //     
 //     // Acquire lock to RTL-SDR device, sampling gets blocked
 //     pthread_mutex_lock(rtlsdr_mut);
@@ -722,6 +756,22 @@ static void* frequency_correction(void *args) {
 //     
 //     // Release lock to RTL-SDR device
 //     pthread_mutex_unlock(rtlsdr_mut);
+    
+    // Read temperature measures
+    if(enable_temp_sensor) {
+      char res[4];
+      fscanf(f_temp, "%*2x %*2x %*2x %*2x %*2x %*2x %*2x %*2x %*2x %*1c %*s %s", res);
+      if(strcmp(res, "YES") == 0) {
+	float temp;
+	fscanf(f_temp, "%*2x %*2x %*2x %*2x %*2x %*2x %*2x %*2x %*2x %*2c %f", &temp);
+	temp /= 1000.f;
+#if defined(VERBOSE) || defined(VERBOSE_FCOR)
+	fprintf(stderr, "[FCOR] Temperature %.3f degree Celsius.\n", temp);
+#endif
+      }
+      
+      // TODO: Implement model to predict frequency error based on temperature variations
+    }
       
     // Write context
     pthread_mutex_lock(freq_corr_ctx->thread->lock);
@@ -735,7 +785,10 @@ static void* frequency_correction(void *args) {
   }
   pthread_mutex_unlock(freq_corr_ctx->thread->lock);
   
-#if defined(VERBOSE)
+  // Close temperature sensor file
+  if(enable_temp_sensor) fclose(f_temp);
+  
+#if defined(VERBOSE) || defined(VERBOSE_FCOR)
   fprintf(stderr, "[FCOR] Terminated.\n");
 #endif
   
