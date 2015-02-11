@@ -766,7 +766,7 @@ static void* frequency_correction(void *args) {
 	fscanf(f_temp, "%*2x %*2x %*2x %*2x %*2x %*2x %*2x %*2x %*2x %*2c %f", &temp);
 	temp /= 1000.f;
 #if defined(VERBOSE) || defined(VERBOSE_FCOR)
-	fprintf(stderr, "[FCOR] Temperature %.3f degree Celsius.\n", temp);
+	fprintf(stderr, "[FCOR] Current temperature: %.3f degree Celsius.\n", temp);
 #endif
       }
       
