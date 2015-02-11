@@ -694,9 +694,10 @@ static void* frequency_correction(void *args) {
     while((d_temp_sensor_serial = readdir(d_temp_sensor_path)) != NULL) {
       if((strcmp(d_temp_sensor_serial->d_name, ".") != 0) &&
 	 (strcmp(d_temp_sensor_serial->d_name, "..") != 0)) {
-	temp_sensor = (char *) malloc(
-	  strlen(temp_sensor_path) + strlen(d_temp_sensor_serial->d_name) + 
-	  strlen(temp_sensor_file) + 2);
+	temp_sensor = realloc(temp_sensor, 
+			      strlen(temp_sensor_path) +
+			      strlen(d_temp_sensor_serial->d_name) +
+			      strlen(temp_sensor_file) + 2);
 	strcpy(temp_sensor, temp_sensor_path);
 	strcat(temp_sensor, d_temp_sensor_serial->d_name);
 	strcat(temp_sensor, "/");
@@ -709,8 +710,6 @@ static void* frequency_correction(void *args) {
 	  }
 	  closedir(d_temp_sensor);
 	}
-	free(temp_sensor);
-	temp_sensor = NULL;
       }
     }
     closedir(d_temp_sensor_path);
@@ -788,9 +787,8 @@ static void* frequency_correction(void *args) {
     pthread_mutex_unlock(manager_ctx->thread->lock);
   }
   pthread_mutex_unlock(freq_corr_ctx->thread->lock);
-  
-  // Close temperature sensor file
-  if(enable_temp_sensor) fclose(f_temp);
+
+  free(temp_sensor);
   
 #if defined(VERBOSE) || defined(VERBOSE_FCOR)
   fprintf(stderr, "[FCOR] Terminated.\n");
