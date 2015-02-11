@@ -71,7 +71,7 @@ $ ./run_cpu_sensor -h
 ```
 
 # Description
-Multiple spectrum sensing nodes can be served by a single (remote) collecting unit. The RF spectrum data recorded by sensors is transmitted over TCP to an associated collector which dumps the received data to the local file system. The following figure highlights the involved processing steps:
+Multiple spectrum sensing nodes can be served by a single (remote) collecting unit. The RF spectrum data recorded by sensors is transmitted over TCP to the associated collector which dumps the received data to the local file system. The following figure highlights the involved processing steps:
 
 ![alt text](https://github.com/pdamian/rtl-spec/blob/master/images/processing_steps.png "Processing Steps")
 
