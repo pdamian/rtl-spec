@@ -49,7 +49,7 @@ The software can be built as follows:
 ```
 First, select the **target** you want to build. There are two options for building the sensor and a one for the collector. The target *sensor_gpu* compiles the sensor software for usage on dedicated hardware, i.e. the [Raspberry Pi](http://www.raspberrypi.org) (RPi). This will lead to some CPU intensive tasks, such as the FFT, being rolled out to the RPi's VideoCore IV GPU, improving overall sensing performance. Note that for FFT compuations on the VideoCore IV we rely on the library [GPU_FFT](http://www.aholme.co.uk/GPU_FFT/Main.htm), which typically comes preinstalled on Raspbian OS. In case you don't want to compile the sensor software for dedicated hardware, select the target *sensor_cpu*. The FFT will then be computed on general purpose CPUs using the [FFTW](http://http://www.fftw.org) library.
 
-Second, you can choose [gcc](https://gcc.gnu.org)'s **compilation flags**. Compiling any of the targets with flag *-DVERBOSE* will provide debugging output on stdout.
+Second, you can choose [gcc](https://gcc.gnu.org)'s **compilation flags**. Compiling any of the targets with flag *-DVERBOSE* will provide additional debugging information on stdout.
 
 An example for building a collector and sensor instance on the same machine is given below:
 ```sh
