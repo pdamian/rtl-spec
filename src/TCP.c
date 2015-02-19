@@ -93,10 +93,13 @@ int tcp_init(TCP_Connection **c, const char *hostaddr, const int portnum) {
       exit(1);
     }
   } else {
-    if(inet_pton(AF_INET, hostaddr, &((*c)->host_addr.sin_addr)) < 1) {
-      perror("ERROR on host address initialization");
+    struct hostent *hent = NULL;
+    hent = gethostbyname(hostaddr);
+    if(hent == NULL) {
+      perror("ERROR on host address lookup");
       return -1;
     }
+    bcopy((char *)hent->h_addr, (char *)&((*c)->host_addr).sin_addr.s_addr, hent->h_length);
   }
   
   return 0;
