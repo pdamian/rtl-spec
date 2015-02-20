@@ -1,6 +1,6 @@
 RTL-Spec
 ========
-*rtl-spec* is an open source implementation of the proposals done by D. Pfammatter, D. Giustiniano and V. Lenders in **"A Software-defined Sensor Architecture for Large-scale Wideband Spectrum Monitoring"** [IPSN15].
+*rtl-spec* is an open source implementation of the proposals done by D. Pfammatter, D. Giustiniano and V. Lenders in **"A Software-defined Sensor Architecture for Large-scale Wideband Spectrum Monitoring"** [[IPSN15]](http://dx.doi.org/10.1145/2737095.2737119).
 
 # Installation
 The following installation instructions are currently only tested for Debian-based Linux operating systems (such as Ubuntu or Raspbian).
@@ -91,4 +91,4 @@ To overcome the sampling rate hardware limitations of low-cost radios (such as D
 - *Random*    : Inspect frequency bands (limited by the sampling rate) in a random fashion
 - *Similarity*: Visit frequency bands of particular interest more frequently than others
 
-For more information, please refer to **"A Software-defined Sensor Architecture for Large-scale Wideband Spectrum Monitoring"** [IPSN15].
+For more information, please refer to **"A Software-defined Sensor Architecture for Large-scale Wideband Spectrum Monitoring"** [[IPSN15]](http://dx.doi.org/10.1145/2737095.2737119).
